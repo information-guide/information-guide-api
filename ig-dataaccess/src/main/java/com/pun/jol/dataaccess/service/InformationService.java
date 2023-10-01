@@ -8,6 +8,7 @@ import com.pun.jol.dataaccess.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +26,15 @@ public class InformationService {
         return repository.findAll();
     }
 
-    public InformationDto getAllInformationByTopic(int topicId) {
+    public InformationDto getAllInformationByTopic(int topicId, String searchText) {
         Topic topic = topicRepository.findByCode(topicId);
-        List<Information> allInformation = repository.findByTopicId(topicId);
-        informationDto.setTopicName(topic.getName());
+        List<Information> allInformation;
+        if (searchText != null) {
+            allInformation = repository.findBySearchText(topicId, searchText);
+        } else {
+            allInformation = repository.findByTopicId(topicId);
+        }
+        informationDto.setTopic(topic);
         informationDto.setInformations(allInformation);
         return informationDto;
     }

@@ -22,8 +22,8 @@ public class InformationController {
     }
 
     @GetMapping("/all-information/{id}")
-    public ResponseEntity<InformationDto> getAllTopicInformation(@PathVariable int id) {
-        return ResponseEntity.ok(service.getAllInformationByTopic(id));
+    public ResponseEntity<InformationDto> getAllTopicInformation(@PathVariable int id, @RequestParam(required = false) String search) {
+        return ResponseEntity.ok(service.getAllInformationByTopic(id, search));
     }
 
     @DeleteMapping(value= "/all-information/{id}", produces="text/plain")
